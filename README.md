@@ -22,9 +22,6 @@ This tool turns one dataset into three audience-specific report drafts automatic
 
 **Automation drafts. A human reviews, edits, and signs off before anything goes out the door.**
 
-This is the clearest test of that principle across the portfolio, because the output is *narrative text* — not just a status dot or pipeline stage. The risk of an ungrounded or overconfident claim in narrative text is meaningfully higher than in a traffic-light indicator.
-
-Therefore:
 - Every generated report carries a visible **"DRAFT — Human review required before sending"** banner — not a footnote, a banner at the top of every generated document.
 - Every number and claim in a draft is traceable directly to the underlying dataset. Nothing is invented.
 - Where data is genuinely missing for a section, the draft says so plainly (e.g. "No comparison data available for this period") — it never writes around a gap.
