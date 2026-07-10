@@ -37,7 +37,7 @@ KPI row (total funding tracked, active grants, upcoming deadlines in next 60 day
 ### Grant Tracker
 Table of grants with funder name, amount, funded clusters, reporting deadline, and status. Three-tier status system (on-track / due soon / overdue), computed transparently in `computeGrantStatus()`. Click any row to open a detail panel showing funded Spots, grant restrictions, and reporting history.
 
-Status rules (transparent, no black-box scoring):
+Status rules:
 - **Overdue:** reporting deadline has passed with no submission logged.
 - **Due soon:** reporting deadline within 30 days.
 - **On-track:** none of the above.
