@@ -10,6 +10,11 @@ let completenessChartInstance = null;
 // ---------------------------------------------------------------------------
 
 function renderFundingChart(grants) {
+  if (typeof Chart === "undefined") {
+    // Chart.js not yet loaded — retry in 100ms
+    setTimeout(() => renderFundingChart(grants), 100);
+    return;
+  }
   const ctx = document.getElementById("funding-chart");
   if (!ctx) return;
 
@@ -21,10 +26,10 @@ function renderFundingChart(grants) {
   const sorted = [...grants].sort((a, b) => b.amount - a.amount);
 
   const statusColors = {
-    "on-track":  "#3E7CB1",
-    "due-soon":  "#D9A62E",
-    "overdue":   "#B54834",
-    "submitted": "#1F5C3D",
+    "on-track":  "#29abe2",
+    "due-soon":  "#f5a623",
+    "overdue":   "#c0392b",
+    "submitted": "#006837",
   };
 
   fundingChartInstance = new Chart(ctx, {
@@ -34,7 +39,7 @@ function renderFundingChart(grants) {
       datasets: [{
         label:           "Grant amount (GH₵)",
         data:            sorted.map(g => g.amount),
-        backgroundColor: sorted.map(g => statusColors[g.status.code] || "#3E7CB1"),
+        backgroundColor: sorted.map(g => statusColors[g.status.code] || "#29abe2"),
         borderRadius:    4,
         borderSkipped:   false,
       }],
@@ -55,7 +60,7 @@ function renderFundingChart(grants) {
         x: {
           ticks: {
             font:      { family: "'IBM Plex Sans', sans-serif", size: 11 },
-            color:     "#6B6558",
+            color:     "#828282",
             maxRotation: 35,
             minRotation: 20,
           },
@@ -64,7 +69,7 @@ function renderFundingChart(grants) {
         y: {
           ticks: {
             font:      { family: "'IBM Plex Mono', monospace", size: 11 },
-            color:     "#6B6558",
+            color:     "#828282",
             callback:  v => "GH₵ " + (v / 1000).toFixed(0) + "k",
           },
           grid: { color: "rgba(26,26,22,0.06)" },
@@ -79,6 +84,10 @@ function renderFundingChart(grants) {
 // ---------------------------------------------------------------------------
 
 function renderCompletenessChart(clusterData) {
+  if (typeof Chart === "undefined") {
+    setTimeout(() => renderCompletenessChart(clusterData), 100);
+    return;
+  }
   const ctx = document.getElementById("completeness-chart");
   if (!ctx) return;
 
@@ -95,14 +104,14 @@ function renderCompletenessChart(clusterData) {
         {
           label:           "Complete",
           data:            clusterData.map(c => c.complete),
-          backgroundColor: "#1F5C3D",
+          backgroundColor: "#006837",
           borderRadius:    3,
           borderSkipped:   false,
         },
         {
           label:           "Incomplete",
           data:            clusterData.map(c => c.incomplete),
-          backgroundColor: "#D9A62E",
+          backgroundColor: "#f5a623",
           borderRadius:    3,
           borderSkipped:   false,
         },
@@ -117,7 +126,7 @@ function renderCompletenessChart(clusterData) {
           position: "bottom",
           labels: {
             font:      { family: "'IBM Plex Sans', sans-serif", size: 12 },
-            color:     "#1A1A16",
+            color:     "#333333",
             padding:   16,
             boxWidth:  12,
             boxHeight: 12,
@@ -132,12 +141,12 @@ function renderCompletenessChart(clusterData) {
       scales: {
         x: {
           stacked: true,
-          ticks:   { font: { family: "'IBM Plex Mono', monospace", size: 11 }, color: "#6B6558" },
+          ticks:   { font: { family: "'IBM Plex Mono', monospace", size: 11 }, color: "#828282" },
           grid:    { color: "rgba(26,26,22,0.06)" },
         },
         y: {
           stacked: true,
-          ticks:   { font: { family: "'IBM Plex Sans', sans-serif", size: 12 }, color: "#1A1A16" },
+          ticks:   { font: { family: "'IBM Plex Sans', sans-serif", size: 12 }, color: "#333333" },
           grid:    { display: false },
         },
       },

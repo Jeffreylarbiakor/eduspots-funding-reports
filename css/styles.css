@@ -7,17 +7,20 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --forest:       #123524;
-  --forest-light: #1F5C3D;
-  --gold:         #D9A62E;
-  --gold-soft:    #F0D89B;
-  --sky:          #3E7CB1;
-  --clay:         #B54834;
-  --paper:        #F6F2E9;
-  --panel:        #FFFFFF;
-  --ink:          #1A1A16;
-  --muted:        #6B6558;
-  --line:         rgba(26, 26, 22, 0.10);
+  /* EduSpots brand colours — sourced directly from eduspots-logo-horz.svg */
+  --forest:       #006837;  /* primary green: drop icon, main brand */
+  --forest-light: #00894a;  /* lighter tint for hovers */
+  --sky:          #29abe2;  /* brand blue: drop icon accent */
+  --sky-soft:     #caeaf8;  /* light tint of brand blue */
+  /* Supporting palette */
+  --gold:         #f5a623;  /* amber: due-soon warning */
+  --gold-soft:    #fde8b5;
+  --clay:         #c0392b;  /* overdue/at-risk status only */
+  --ink:          #333333;  /* matches logo wordmark #333 */
+  --muted:        #828282;  /* matches logo sub-text #828282 */
+  --paper:        #f5f5f5;
+  --panel:        #ffffff;
+  --line:         rgba(51, 51, 51, 0.10);
 
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-body:    "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
@@ -281,11 +284,11 @@ nav {
   white-space: nowrap;
 }
 
-.badge-on-track   { background: #D4EDE2; color: #1F5C3D; }
+.badge-on-track   { background: #d4ede2; color: #006837; }
 .badge-due-soon   { background: var(--gold-soft); color: #7A5700; }
 .badge-overdue    { background: #FBDBD7; color: var(--clay); }
-.badge-submitted  { background: #E2EDF5; color: #1A4A72; }
-.badge-complete   { background: #D4EDE2; color: #1F5C3D; }
+.badge-submitted  { background: #caeaf8; color: #006f9b; }
+.badge-complete   { background: #d4ede2; color: #006837; }
 .badge-incomplete { background: #FBDBD7; color: var(--clay); }
 
 /* ------------------------------------------------------------------ */
@@ -439,7 +442,7 @@ td {
   gap: 16px;
   font-size: 13px;
   padding: 8px 12px;
-  background: #EBF5EC;
+  background: #d4ede2;
   border-radius: 5px;
 }
 .history-note { color: var(--muted); }
@@ -508,7 +511,7 @@ select:focus {
 .btn-primary   { background: var(--forest); color: #fff; width: 100%; }
 .btn-primary:hover { background: var(--forest-light); }
 .btn-secondary { background: var(--paper); color: var(--ink); border: 1px solid var(--line); }
-.btn-secondary:hover { background: #EEE9DC; }
+.btn-secondary:hover { background: #e8e8e8; }
 .btn-sm { padding: 5px 12px; font-size: 12px; }
 .btn-ack { background: var(--forest); color: #fff; }
 .btn-ack:hover { background: var(--forest-light); }

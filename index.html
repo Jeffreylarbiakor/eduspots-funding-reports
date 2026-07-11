@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
@@ -98,10 +97,10 @@
             <canvas id="funding-chart"></canvas>
           </div>
           <p style="font-size:11px;color:var(--muted);margin-top:10px;font-family:var(--font-mono)">
-            Colour = status: <span style="color:#1F5C3D">■</span> Submitted &nbsp;
-            <span style="color:#3E7CB1">■</span> On-track &nbsp;
-            <span style="color:#D9A62E">■</span> Due soon &nbsp;
-            <span style="color:#B54834">■</span> Overdue
+            Colour = status: <span style="color:#006837">■</span> Submitted &nbsp;
+            <span style="color:#29abe2">■</span> On-track &nbsp;
+            <span style="color:#f5a623">■</span> Due soon &nbsp;
+            <span style="color:#c0392b">■</span> Overdue
           </p>
         </div>
         <div class="card">
@@ -285,6 +284,8 @@
   <div id="modal-body"></div>
 </div>
 
+<!-- Chart.js must load before our chart wrapper -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 <!-- Scripts — load order matters: real-data → data → templates → charts → app -->
 <script src="js/real-data.js"></script>
 <script src="js/data.js"></script>
