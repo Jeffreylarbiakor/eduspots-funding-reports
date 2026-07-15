@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Funding &amp; Impact Report Generator — Product Guide</title>
+<link rel="icon" href="assets/favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+
+/* ── Reset ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  background: #F6F2E9;
+  color: #1A1A16;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Tokens ─────────────────────────────────────────────────── */
+:root {
+  --forest:       #006837;
+  --forest-light: #00894a;
+  --gold:         #f5a623;
+  --gold-soft:    #fde8b5;
+  --sky:          #29abe2;
+  --clay:         #c0392b;
+  --paper:        #F6F2E9;
+  --panel:        #FFFFFF;
+  --ink:          #333333;
+  --muted:        #828282;
+  --line:         rgba(51,51,51,0.10);
+}
+
+/* ── Cover ──────────────────────────────────────────────────── */
+.cover {
+  background: var(--forest);
+  color: #fff;
+  padding: 72px 60px 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover::after {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 5px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--forest-light) 0px, var(--forest-light) 8px,
+    var(--gold)         8px, var(--gold)         10px,
+    var(--forest-light) 10px, var(--forest-light) 12px,
+    #fff                12px, #fff                13px,
+    var(--forest-light) 13px, var(--forest-light) 15px
+  );
+}
+
+.cover-eyebrow {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cover-eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.cover-title {
+  font-family: "Space Grotesk", ui-sans-serif, sans-serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #fff;
+  max-width: 700px;
+  margin-bottom: 20px;
+}
+
+.cover-subtitle {
+  font-size: 16px;
+  color: rgba(255,255,255,0.65);
+  max-width: 560px;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+.cover-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.cover-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cover-meta-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.40);
+}
+
+.cover-meta-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.85);
+}
+
+/* ── Layout ─────────────────────────────────────────────────── */
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 32px 80px;
+}
+
+/* ── TOC ────────────────────────────────────────────────────── */
+.toc {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--forest);
+  border-radius: 6px;
+  padding: 28px 32px;
+  margin: 44px 0 60px;
+}
+
+.toc-title {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.toc-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 40px;
+}
+
+.toc-list a {
+  font-size: 14px;
+  color: var(--forest-light);
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toc-list a:hover { text-decoration: underline; }
+
+.toc-num {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  color: var(--muted);
+  width: 20px;
+  flex-shrink: 0;
+}
+
+/* ── Section headings ───────────────────────────────────────── */
+.section {
+  margin-bottom: 60px;
+}
+
+.section-eyebrow {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-eyebrow::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.section-title {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+
+.section-lead {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 680px;
+  margin-bottom: 28px;
+  line-height: 1.65;
+}
+
+/* ── Feature cards ──────────────────────────────────────────── */
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.feature-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 20px 22px;
+}
+
+.feature-card-icon {
+  width: 36px;
+  height: 36px;
+  background: rgba(0,104,55,0.08);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  color: var(--forest);
+}
+
+.feature-card-title {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.feature-card-body {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── View breakdowns ────────────────────────────────────────── */
+.view-block {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.view-block-header {
+  padding: 18px 24px 16px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.view-block-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.icon-forest { background: rgba(0,104,55,0.10);   color: var(--forest); }
+.icon-sky    { background: rgba(41,171,226,0.12);  color: var(--sky); }
+.icon-gold   { background: rgba(245,166,35,0.15);  color: #a06c00; }
+.icon-clay   { background: rgba(192,57,43,0.12);   color: var(--clay); }
+
+.view-block-name {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.view-block-tagline {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.view-block-body {
+  padding: 20px 24px;
+}
+
+.view-block-body p {
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.view-block-body p:last-of-type { margin-bottom: 0; }
+
+/* ── Element list ───────────────────────────────────────────── */
+.element-list {
+  list-style: none;
+  margin-top: 16px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+
+.element-item {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+}
+
+.element-item:last-child { border-bottom: none; }
+
+.element-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--forest-light);
+  background: rgba(0,104,55,0.08);
+  padding: 2px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+  align-self: flex-start;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.element-desc {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* ── Status pills ───────────────────────────────────────────── */
+.status-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.status-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  border-left-width: 3px;
+}
+
+.status-item.status-on-track  { border-left-color: var(--sky); }
+.status-item.status-due-soon  { border-left-color: var(--gold); }
+.status-item.status-overdue   { border-left-color: var(--clay); }
+.status-item.status-submitted { border-left-color: var(--forest-light); }
+
+.status-pill {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.pill-on-track   { background: rgba(41,171,226,0.14);  color: #006f9b; }
+.pill-due-soon   { background: rgba(245,166,35,0.18);  color: #a06c00; }
+.pill-overdue    { background: rgba(192,57,43,0.14);   color: var(--clay); }
+.pill-submitted  { background: rgba(0,104,55,0.12);    color: var(--forest-light); }
+.pill-funder     { background: rgba(0,104,55,0.10);    color: var(--forest); }
+.pill-rc         { background: rgba(41,171,226,0.14);  color: #006f9b; }
+.pill-committee  { background: rgba(245,166,35,0.15);  color: #a06c00; }
+
+.status-content {}
+
+.status-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+
+.status-conditions {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* ── Audience cards ─────────────────────────────────────────── */
+.audience-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin: 20px 0 28px;
+}
+
+.audience-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px 20px;
+}
+
+.audience-card-pill {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.audience-card-title {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.audience-card-body {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.audience-card-traits {
+  list-style: none;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.audience-card-traits li {
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  line-height: 1.4;
+}
+
+.audience-card-traits li::before {
+  content: "→";
+  color: var(--forest);
+  flex-shrink: 0;
+  font-size: 11px;
+  margin-top: 1px;
+}
+
+/* ── Callout boxes ──────────────────────────────────────────── */
+.callout {
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin: 24px 0;
+  font-size: 14px;
+  line-height: 1.65;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.callout-principle {
+  background: rgba(0,104,55,0.06);
+  border: 1px solid rgba(0,104,55,0.15);
+}
+
+.callout-note {
+  background: rgba(245,166,35,0.10);
+  border: 1px solid rgba(245,166,35,0.25);
+}
+
+.callout-scope {
+  background: rgba(41,171,226,0.08);
+  border: 1px solid rgba(41,171,226,0.20);
+}
+
+.callout-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.callout strong {
+  display: block;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 13px;
+}
+
+.callout p { color: var(--muted); margin: 0; }
+
+/* ── Workflow diagram ───────────────────────────────────────── */
+.workflow {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 20px 0;
+  position: relative;
+}
+
+.workflow-step {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding-bottom: 24px;
+  position: relative;
+}
+
+.workflow-step:last-child { padding-bottom: 0; }
+
+.workflow-step::before {
+  content: "";
+  position: absolute;
+  left: 17px;
+  top: 36px;
+  bottom: 0;
+  width: 2px;
+  background: var(--line);
+}
+
+.workflow-step:last-child::before { display: none; }
+
+.workflow-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--forest);
+  color: #fff;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.workflow-content {
+  padding-top: 6px;
+}
+
+.workflow-title {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.workflow-body {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── Role table ─────────────────────────────────────────────── */
+.role-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.role-table th {
+  background: var(--paper);
+  padding: 10px 16px;
+  text-align: left;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+}
+
+.role-table td {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.role-table tr:last-child td { border-bottom: none; }
+
+.role-tag {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.tag-head { background: rgba(0,104,55,0.10);   color: var(--forest); }
+.tag-rc   { background: rgba(41,171,226,0.12);  color: #006f9b; }
+.tag-auto { background: rgba(245,166,35,0.15);  color: #a06c00; }
+
+/* ── Data boundary box ──────────────────────────────────────── */
+.boundary-box {
+  background: var(--panel);
+  border: 2px solid var(--forest);
+  border-radius: 8px;
+  padding: 24px 28px;
+  margin: 24px 0;
+}
+
+.boundary-box-title {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--forest);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.boundary-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.boundary-col-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.boundary-col-label.yes { color: var(--forest-light); }
+.boundary-col-label.no  { color: var(--clay); }
+
+.boundary-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.boundary-col li {
+  font-size: 13px;
+  color: var(--muted);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.5;
+}
+
+.boundary-col li::before {
+  font-size: 12px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.boundary-col.yes li::before { content: "✓"; color: var(--forest-light); }
+.boundary-col.no  li::before { content: "✕"; color: var(--clay); }
+
+/* ── Divider ────────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: var(--line);
+  margin: 52px 0;
+}
+
+/* ── Footer ─────────────────────────────────────────────────── */
+.footer {
+  background: var(--forest);
+  color: rgba(255,255,255,0.5);
+  padding: 32px 60px;
+  font-size: 12px;
+  font-family: "IBM Plex Mono", monospace;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-left { line-height: 1.8; }
+.footer-right { color: rgba(255,255,255,0.3); }
+
+/* ── Print ──────────────────────────────────────────────────── */
+@media print {
+  body { background: #fff; }
+  .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .footer { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { padding: 0 20px 40px; }
+  .view-block, .feature-card, .status-item, .callout, .boundary-box { break-inside: avoid; }
+  .section { break-inside: avoid; }
+  .audience-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 680px) {
+  .cover { padding: 48px 24px 44px; }
+  .page { padding: 0 20px 60px; }
+  .feature-grid { grid-template-columns: 1fr; }
+  .toc-list { grid-template-columns: 1fr; }
+  .audience-grid { grid-template-columns: 1fr; }
+  .boundary-cols { grid-template-columns: 1fr; }
+  .footer { padding: 24px; flex-direction: column; align-items: flex-start; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ================================================================
+     COVER
+================================================================ -->
+<div class="cover">
+  <div class="cover-eyebrow">EduSpots Operations Portfolio · Project 3 of 5</div>
+  <h1 class="cover-title">Funding &amp; Impact Report Generator</h1>
+  <p class="cover-subtitle">
+    A product guide for the Head of Programme and Product Operations —
+    how this tool works, what each section does, and how it fits into
+    the reporting, grant management, and MEL responsibilities of the role.
+  </p>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Maps to JD line</span>
+      <span class="cover-meta-value">Writing reports &amp; contributing to funding proposals</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Network covered</span>
+      <span class="cover-meta-value">49 Spots · 4 RC clusters · Ghana &amp; Kenya</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Report audiences</span>
+      <span class="cover-meta-value">Funders · Regional Coordinators · Spot Committees</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Status</span>
+      <span class="cover-meta-value">Prototype · synthetic demo data</span>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- ================================================================
+     TABLE OF CONTENTS
+================================================================ -->
+<nav class="toc" aria-label="Table of contents">
+  <p class="toc-title">Contents</p>
+  <ul class="toc-list">
+    <li><a href="#what-it-is"><span class="toc-num">01</span> What this tool is</a></li>
+    <li><a href="#the-principle"><span class="toc-num">02</span> The core principle</a></li>
+    <li><a href="#real-vs-synthetic"><span class="toc-num">03</span> What is real vs. synthetic</a></li>
+    <li><a href="#overview-view"><span class="toc-num">04</span> Overview view</a></li>
+    <li><a href="#grant-tracker"><span class="toc-num">05</span> Grant Tracker</a></li>
+    <li><a href="#report-generator"><span class="toc-num">06</span> Report Generator</a></li>
+    <li><a href="#audiences"><span class="toc-num">07</span> The three draft audiences</a></li>
+    <li><a href="#completeness"><span class="toc-num">08</span> Data Completeness view</a></li>
+    <li><a href="#status-rules"><span class="toc-num">09</span> How status is calculated</a></li>
+    <li><a href="#workflow"><span class="toc-num">10</span> Typical weekly workflow</a></li>
+    <li><a href="#who-does-what"><span class="toc-num">11</span> Who does what</a></li>
+    <li><a href="#roadmap"><span class="toc-num">12</span> Next steps if built for real</a></li>
+  </ul>
+</nav>
+
+
+<!-- ================================================================
+     01 — WHAT IT IS
+================================================================ -->
+<section class="section" id="what-it-is">
+  <p class="section-eyebrow">01</p>
+  <h2 class="section-title">What this tool is</h2>
+  <p class="section-lead">
+    A single place to track grants, monitor reporting deadlines, identify data gaps,
+    and produce audience-specific report drafts — all from the same underlying dataset.
+  </p>
+
+  <p style="font-size:15px; color:#333; line-height:1.75; margin-bottom:16px;">
+    Reporting the same network activity to different audiences is one of the most
+    time-consuming parts of a programme operations role. A funder needs outcomes
+    framed against grant restrictions. A Regional Coordinator needs to know which
+    of their Spots have data gaps and which requests are overdue. A Spot Committee
+    wants to know how many children their community reached this term — without
+    the jargon. Right now, that probably means the same underlying numbers get
+    reformatted by hand, three times, across multiple documents, every reporting cycle.
+  </p>
+
+  <p style="font-size:15px; color:#333; line-height:1.75; margin-bottom:28px;">
+    This tool consolidates the inputs and separates the drafting from the judgment.
+    It tracks every active grant, flags which ones have deadlines approaching, shows
+    exactly where Spot-level reporting data is incomplete, and generates a structured
+    draft for whichever audience is needed — with the data already filled in. The
+    Head of Ops then reviews, edits, and signs off. The tool does the heavy lifting
+    on structure and numbers; the human does the reading, the verification, and the
+    judgment call on what to say.
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20M6 20V10M12 20V4M18 20v-6"/></svg>
+      </div>
+      <div class="feature-card-title">All grants in one view</div>
+      <div class="feature-card-body">Every active grant, its amount, reporting deadline, and status — without opening a spreadsheet or chasing a colleague for an update.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+      </div>
+      <div class="feature-card-title">Three audiences, one dataset</div>
+      <div class="feature-card-body">Generate a funder report, an RC operational briefing, or a Spot Committee update from the same data — each with a structurally and tonally different draft.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <div class="feature-card-title">Data gaps flagged explicitly</div>
+      <div class="feature-card-body">Where reporting data is missing for a Spot, the tool says so — with the specific field and reason — rather than writing around the gap or inflating numbers.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      </div>
+      <div class="feature-card-title">Human review, always</div>
+      <div class="feature-card-body">Every generated draft carries a visible DRAFT banner and reviewer instructions. The tool does not send, publish, or finalise anything — that is always a human decision.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ================================================================
+     02 — THE PRINCIPLE
+================================================================ -->
+<section class="section" id="the-principle">
+  <p class="section-eyebrow">02</p>
+  <h2 class="section-title">The core principle</h2>
+  <p class="section-lead">Automation drafts. A human reviews, edits, and signs off before anything goes out the door.</p>
+
+  <div class="callout callout-principle">
+    <span class="callout-icon">🌿</span>
+    <div>
+      <strong>Why this matters most in a report-generating tool</strong>
+      <p>A tool that auto-generates text carries a particular risk: it can produce something that looks finished and authoritative but contains a wrong figure, a misframed outcome, or a claim that doesn't hold up against a funder's specific requirements. The DRAFT banner on every generated document is not a formality — it is the tool's clearest statement that the text in front of you has not been verified by a person. Nothing generated by this tool should be sent to a funder, an RC, or a Spot Committee without being read, checked against source records, and approved by the Head of Ops or an authorised colleague.</p>
+    </div>
+  </div>
+
+  <p style="font-size:15px; color:#333; line-height:1.75; margin-top:20px;">
+    This principle is structurally enforced, not just stated. The tool has no "send"
+    button. It has no way to publish or share directly. The only outputs are a
+    copy-to-clipboard function and a download as a plain text file — both of which
+    require a human to then open an email, a document, or a messaging tool and
+    make a deliberate choice to use what was generated. Every draft also contains
+    explicit <code>[REVIEWER: …]</code> placeholders in sections that require
+    human input before the draft is ready — such as planned activities for the
+    next reporting period, or a personalised community story in a Spot Committee
+    update.
+  </p>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ================================================================
+     03 — REAL VS SYNTHETIC
+================================================================ -->
+<section class="section" id="real-vs-synthetic">
+  <p class="section-eyebrow">03</p>
+  <h2 class="section-title">What is real vs. synthetic data</h2>
+  <p class="section-lead">The distinction is structural — real and synthetic data live in separate files and are clearly labelled in the codebase.</p>
+
+  <div class="boundary-box">
+    <div class="boundary-box-title">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Data boundary — what comes from where
+    </div>
+    <div class="boundary-cols">
+      <div class="boundary-col yes">
+        <p class="boundary-col-label yes">Real — sourced from eduspots.org</p>
+        <ul>
+          <li>All 49 Spot names across Ghana and Kenya</li>
+          <li>All 4 Regional Coordinator names and cluster assignments</li>
+          <li>Network total: 52 Spots, 412 Catalysts, ~12,000 Sparks</li>
+          <li>500% increase in book borrowing (2024 reporting period)</li>
+          <li>56% funding growth (2024)</li>
+        </ul>
+      </div>
+      <div class="boundary-col no">
+        <p class="boundary-col-label no">Synthetic — invented for the prototype</p>
+        <ul>
+          <li>All funder / grant names (e.g. "Albright Community Foundation")</li>
+          <li>All grant amounts and reporting deadlines</li>
+          <li>All grant restriction text</li>
+          <li>Per-Spot completeness data and operational figures</li>
+          <li>Reporting history for each grant</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-note" style="margin-top:8px;">
+    <span class="callout-icon">💡</span>
+    <div>
+      <strong>Why this matters for the application context</strong>
+      <p>The synthetic funder names are entirely invented placeholder names — they do not represent real foundations, companies, or donor organisations. The tool uses real Spot and RC names because they ground the demo in EduSpots' actual network, making the prototype meaningful to someone who knows the organisation. But generating fake grant data in the name of a real funder would be inappropriate, so those are kept clearly synthetic.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ================================================================
+     04 — OVERVIEW VIEW
+================================================================ -->
+<section class="section" id="overview-view">
+  <p class="section-eyebrow">04</p>
+  <h2 class="section-title">Overview view</h2>
+  <p class="section-lead">The starting screen. A pulse-check on the whole funding picture before going deeper.</p>
+
+  <div class="view-block">
+    <div class="view-block-header">
+      <div class="view-block-icon icon-forest">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      </div>
+      <div>
+        <div class="view-block-name">Overview</div>
+        <div class="view-block-tagline">KPI row · grant amounts chart · data completeness chart</div>
+      </div>
+    </div>
+    <div class="view-block-body">
+      <p>The Overview loads first when you open the tool. It answers the most common Monday-morning question: <em>what is the state of our grants and reporting data right now?</em></p>
+      <p>The KPI row surfaces five numbers at a glance. The two charts underneath show the funding portfolio at a scale (amounts by funder, colour-coded by grant status) and the state of reporting data completeness across the four RC clusters.</p>
+
+      <ul class="element-list">
+        <li class="element-item">
+          <span class="element-label">Total funding tracked</span>
+          <span class="element-desc">The sum of all grant amounts currently in the tracker. Useful as a headline figure for board updates or funding strategy conversations. In a live system this would reflect confirmed grant agreements, not estimates.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Active grants</span>
+          <span class="element-desc">Grants that have not yet been marked as submitted — i.e. those still requiring a report. A rising number here means the pipeline is growing; a falling one may mean reports are being closed out or grants are ending.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Deadlines next 60 days</span>
+          <span class="element-desc">The count of grants with a reporting deadline within the next 60 days that have not yet been submitted. This is the most time-sensitive number on the screen — it drives the short-term reporting agenda.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Drafts generated</span>
+          <span class="element-desc">A session counter showing how many report drafts have been generated since the tool was opened. Resets on page refresh. In a live system this could persist as a usage log useful for understanding how frequently different audiences are being reported to.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Spots with complete data</span>
+          <span class="element-desc">How many of the 49 Spots have complete reporting data for the current period — meaning engagement, safeguarding, and financial data are all present. The sub-label states how many have data gaps. This is the number the Report Generator uses to decide what it can and cannot include in a draft.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Grant amounts by funder chart</span>
+          <span class="element-desc">A bar chart of all grants sorted by amount, with each bar colour-coded by status: dark green for submitted, blue for on-track, amber for due soon, red for overdue. Gives an immediate visual read of where the largest grants are and which are most at risk of a missed deadline.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Reporting data completeness chart</span>
+          <span class="element-desc">A stacked horizontal bar chart showing complete vs. incomplete Spots for each RC cluster. An obvious imbalance — one cluster with many more incomplete Spots than others — is a signal for a follow-up conversation with that RC about what data collection is missing, before the next report cycle begins.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ================================================================
+     05 — GRANT TRACKER
+================================================================ -->
+<section class="section" id="grant-tracker">
+  <p class="section-eyebrow">05</p>
+  <h2 class="section-title">Grant Tracker</h2>
+  <p class="section-lead">Every active grant in a single table — sortable by status, with full detail available on click.</p>
+
+  <div class="view-block">
+    <div class="view-block-header">
+      <div class="view-block-icon icon-sky">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+      </div>
+      <div>
+        <div class="view-block-name">Grant Tracker</div>
+        <div class="view-block-tagline">Sortable table · status badges · click any row for full grant detail</div>
+      </div>
+    </div>
+    <div class="view-block-body">
+      <p>The Grant Tracker is the operational register of every grant EduSpots is currently accountable to. The table is pre-sorted with the most urgent cases at the top — overdue first, then due soon, then on-track, then submitted — so you can read the risk position top-to-bottom without any manual sorting.</p>
+      <p>Clicking any row opens the grant detail panel, which shows the full grant restriction text, a list of all funded Spots (grouped by cluster), and the grant's prior reporting history. This is the view to open before a conversation with a programme officer, a finance lead, or a trustee about a specific grant.</p>
+
+      <ul class="element-list">
+        <li class="element-item">
+          <span class="element-label">Funder</span>
+          <span class="element-desc">The name of the funding organisation. In this prototype all funder names are synthetic. In a live system this would match the legal entity name on the grant agreement.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Amount</span>
+          <span class="element-desc">The grant award amount in GH₵. Displayed in a monospace font to make it easy to scan and compare values down the column.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Funded clusters</span>
+          <span class="element-desc">Which of the four RC clusters the grant covers — Volta Region, Northern Region, Central &amp; Western Regions, or New Spots. A grant that covers all clusters will show "Network-wide" in the detail panel.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Reporting deadline</span>
+          <span class="element-desc">The date by which a report must be submitted to the funder. This is the date the status rules are calculated against.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Status badge</span>
+          <span class="element-desc">Computed automatically — never manually assigned. Four possible values: <strong>Overdue</strong> (deadline passed, no submission logged), <strong>Due soon</strong> (deadline within 30 days), <strong>On-track</strong> (more than 30 days away), <strong>Submitted</strong> (submission date recorded).</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Grant detail panel</span>
+          <span class="element-desc">Click any row to open the full detail view: grant ID, amount, deadline, status, submission date (if recorded), restriction text, funded clusters with their Spot names, and a list of prior reporting periods. Close with ✕ or click outside the panel.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Restriction text</span>
+          <span class="element-desc">Visible in the detail panel. States the specific purpose or conditions attached to the grant (e.g. "Restricted to training and stipends for volunteer Catalysts only."). This text is used in the Funder draft to ensure the report is framed against the grant's stated purpose — not just general programme activity.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Reporting history</span>
+          <span class="element-desc">The record of prior reporting periods for this grant, with submission date and a note. In a live system this would be populated from the grant management record. It gives a Head of Ops quick context on how many prior cycles have been completed before the current one.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ================================================================
+     06 — REPORT GENERATOR
+================================================================ -->
+<section class="section" id="report-generator">
+  <p class="section-eyebrow">06</p>
+  <h2 class="section-title">Report Generator</h2>
+  <p class="section-lead">Select a period, an audience, and a scope — and get a structured draft built entirely from the underlying dataset.</p>
+
+  <div class="view-block">
+    <div class="view-block-header">
+      <div class="view-block-icon icon-gold">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+      </div>
+      <div>
+        <div class="view-block-name">Report Generator</div>
+        <div class="view-block-tagline">Three audiences · optional cluster &amp; grant filters · copy or download draft</div>
+      </div>
+    </div>
+    <div class="view-block-body">
+      <p>The generator form is a five-field panel on the left. Set a reporting period start and end date, choose your audience, and optionally filter by a specific RC cluster or a specific grant. Hit "Generate draft" and the right-hand panel fills with a structured report draft.</p>
+      <p>Every number in the draft traces directly to the underlying dataset — nothing is invented. Where data is missing for a section the draft says so plainly (e.g. "No comparison data available for this period") rather than leaving a blank or writing around the gap. The DRAFT banner at the top of the output is not a label — it is the tool's structural statement that a human must review what follows before it is used.</p>
+
+      <ul class="element-list">
+        <li class="element-item">
+          <span class="element-label">Reporting period</span>
+          <span class="element-desc">Start and end date for the period the report covers. The generator uses this to frame section headers and label the data scope. It validates that the end date is after the start date before generating.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Audience selector</span>
+          <span class="element-desc">Chooses which of the three templates is used — Funder, Regional Coordinator, or Spot Committee. Each template produces structurally and tonally different output from the same dataset. See Section 07 for a breakdown of what each audience draft contains.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Cluster filter</span>
+          <span class="element-desc">Optional. Narrows the Spots included in the draft to a single RC's cluster. Useful when preparing an RC-specific operational briefing, or a funder report whose grant covers only one region.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Grant filter</span>
+          <span class="element-desc">Optional. Narrows the grant context in the draft to a single grant — pulling that grant's restriction text, funded clusters, and deadline into the report. Useful for funder reports that must be framed against a specific grant's purpose.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">DRAFT banner</span>
+          <span class="element-desc">A red banner at the top of every generated output reading "DRAFT — Human review required before sending." This is intentionally hard to overlook. It appears in the on-screen panel and at the top of the downloaded text file.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">[REVIEWER: …] placeholders</span>
+          <span class="element-desc">Every section of a draft that requires human judgment — planned activities, personalised stories, sign-off names — contains a clearly marked placeholder. These must be completed before the draft is ready. The tool will never fill them in automatically.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Copy text</span>
+          <span class="element-desc">Copies the full draft text to the clipboard. The DRAFT marker is included. From there the text can be pasted into a Word document, Google Doc, or email for editing and sign-off.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Download .txt</span>
+          <span class="element-desc">Downloads the draft as a plain text file named with the audience type and date (e.g. <code>eduspots-report-draft-funder-2025-07-09.txt</code>). The file opens in any text editor and also imports cleanly into Word or Google Docs.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ================================================================
+     07 — THE THREE AUDIENCES
+================================================================ -->
+<section class="section" id="audiences">
+  <p class="section-eyebrow">07</p>
+  <h2 class="section-title">The three draft audiences</h2>
+  <p class="section-lead">Same data, three completely different documents — each calibrated to what that audience needs to read and how they need to read it.</p>
+
+  <div class="audience-grid">
+    <div class="audience-card">
+      <span class="audience-card-pill pill-funder">Funder</span>
+      <div class="audience-card-title">Formal — outcomes &amp; accountability</div>
+      <div class="audience-card-body">Written for the grant programme officer or foundation contact who needs to confirm that the grant was used as intended and that outcomes were achieved.</div>
+      <ul class="audience-card-traits">
+        <li>Opens with the specific grant's restriction text</li>
+        <li>Outcomes section: Sparks reached, Catalysts active, sessions held, books circulated</li>
+        <li>Grant compliance section: deadline, status, funded clusters, submission record</li>
+        <li>Network context drawn from real published EduSpots totals</li>
+        <li>Explicit note on data completeness — missing Spots are named, not hidden</li>
+        <li>Reviewer placeholder for next-period planned activities</li>
+      </ul>
+    </div>
+    <div class="audience-card">
+      <span class="audience-card-pill pill-rc">RC</span>
+      <div class="audience-card-title">Operational — flags &amp; actions oriented</div>
+      <div class="audience-card-body">Written for the Regional Coordinator check-in or internal operations review — focused on what needs attention, not on what went well.</div>
+      <ul class="audience-card-traits">
+        <li>Opens with grant status alerts — overdue and due-soon grants listed first</li>
+        <li>Cluster-by-cluster breakdown of Sparks, Catalysts, sessions, and books</li>
+        <li>Specific ⚠ flags per Spot with incomplete data, naming the exact missing field</li>
+        <li>Action items section for follow-up</li>
+        <li>Designed for internal circulation only — marked accordingly</li>
+        <li>Reviewer placeholder for additional actions and deadlines</li>
+      </ul>
+    </div>
+    <div class="audience-card">
+      <span class="audience-card-pill pill-committee">Committee</span>
+      <div class="audience-card-title">Plain-language — community-facing</div>
+      <div class="audience-card-body">Written for the Spot Committee — the local volunteers and community members who run the Spot and want to know the impact their community has had this term.</div>
+      <ul class="audience-card-traits">
+        <li>No jargon — "Sparks" explained, no RC or cluster terminology</li>
+        <li>Leads with children reached, sessions held, and books borrowed</li>
+        <li>Per-Spot activity highlights (first six Spots in scope)</li>
+        <li>Network context framed as "your community is part of something bigger"</li>
+        <li>Note if any figures are still being confirmed</li>
+        <li>Reviewer placeholder to add a local story, photo caption, or personalisation</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-note">
+    <span class="callout-icon">💡</span>
+    <div>
+      <strong>Why tonal difference matters</strong>
+      <p>A funder reading a report framed in the same casual language as a community update will question the organisation's professionalism. A Spot Committee volunteer reading a report full of grant compliance language and outcome metrics will switch off. The generator doesn't just pull different data fields — it uses structurally different templates with different section orders, different register, and different emphasis. A human reviewer should still check that the tone is right for the specific relationship, but the scaffolding is already calibrated per audience.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ================================================================
+     08 — DATA COMPLETENESS
+================================================================ -->
+<section class="section" id="completeness">
+  <p class="section-eyebrow">08</p>
+  <h2 class="section-title">Data Completeness view</h2>
+  <p class="section-lead">The view that flags what the Report Generator cannot responsibly report on — with the specific reason per gap, not just a status colour.</p>
+
+  <div class="view-block">
+    <div class="view-block-header">
+      <div class="view-block-icon icon-clay">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div>
+        <div class="view-block-name">Data Completeness</div>
+        <div class="view-block-tagline">Per-Spot data gap flags · specific field-level reasons · acknowledge for follow-up</div>
+      </div>
+    </div>
+    <div class="view-block-body">
+      <p>This view is what distinguishes a tool that is honest about its limitations from one that papers over gaps. Every Spot where reporting data is incomplete or missing appears here as a card, with the specific field that is missing and the reason — not just a red dot.</p>
+      <p>The "Acknowledge for follow-up" button on each card records that someone has taken ownership of chasing the missing data. It does not mark the data as present, it does not change what the Report Generator will include, and it does not close the flag. Data completeness can only improve when the actual data is recorded in the underlying system. The acknowledge action is a human handshake: I have seen this gap, I know which RC needs to be contacted, I am on it.</p>
+
+      <ul class="element-list">
+        <li class="element-item">
+          <span class="element-label">Engagement data flag</span>
+          <span class="element-desc">Raised when no engagement data (Sparks reached, sessions held, books circulated) has been logged for a Spot in the selected period. A Spot in this state cannot be included in the activity totals of any report draft.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Safeguarding data flag</span>
+          <span class="element-desc">Raised when safeguarding reporting data has not been returned for a Spot. In a live system this would link to training compliance records from Project #4 (Safeguarding Training Compliance Tracker) — a Spot with an overdue Catalyst would surface here as well as there.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Financial data flag</span>
+          <span class="element-desc">Raised when financial data — spend against a grant allocation, cost per Spark, or resource expenditure — has not been logged for a Spot. Missing financial data in particular affects funder reports, where compliance with grant restrictions depends on confirmed spend records.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Specific field reason</span>
+          <span class="element-desc">Each flag states exactly why it was raised — e.g. "No engagement data logged for this Spot in the selected period" or "Financial data missing for this period." Never just a colour. Never a vague "incomplete."</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Spot and RC on each card</span>
+          <span class="element-desc">The Spot name, cluster, and RC name are shown directly on the card — you know immediately who to contact to chase the missing data without opening a separate view.</span>
+        </li>
+        <li class="element-item">
+          <span class="element-label">Acknowledge for follow-up</span>
+          <span class="element-desc">Marks that the gap has been seen and a human is chasing it. The card dims and moves to an "Acknowledged" section. In this prototype the acknowledgement resets on page refresh — in a live system it would persist with a timestamp and the name of whoever logged it.</span>
+        </li>
+      </ul>
+
+      <div class="callout callout-note" style="margin-top:20px;">
+        <span class="callout-icon">💡</span>
+        <div>
+          <strong>How to use this view before generating a report</strong>
+          <p>Open this view before generating any report draft. Check which Spots are flagged. If the grant you are reporting against covers a cluster with many incomplete Spots, the draft will reflect those gaps — the report will state clearly which Spots could not be included and why. Use the Data Completeness view to decide whether the draft can go forward or whether data collection needs to happen first. It is always better to delay a draft by a week to include complete data than to submit a report with unexplained gaps.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ================================================================
+     09 — STATUS RULES
+================================================================ -->
+<section class="section" id="status-rules">
+  <p class="section-eyebrow">09</p>
+  <h2 class="section-title">How status is calculated</h2>
+  <p class="section-lead">Every status badge in the tool is computed by a named function with explicit, auditable rules — no hidden scoring, no black box.</p>
+
+  <p style="font-size:15px; color:#333; line-height:1.75; margin-bottom:24px;">
+    The status rules are the same regardless of which view displays the badge. A grant
+    showing "Overdue" in the Grant Tracker table is overdue for exactly the same reason
+    it shows as overdue in the Overview chart. The reason is always displayed alongside
+    the badge — a colour alone never carries the full meaning.
+  </p>
+
+  <h3 style="font-family:'Space Grotesk',sans-serif; font-size:16px; font-weight:700; color:#333; margin-bottom:14px;">Grant reporting status — <code>computeGrantStatus()</code></h3>
+  <div class="status-row">
+    <div class="status-item status-overdue">
+      <span class="status-pill pill-overdue">Overdue</span>
+      <div class="status-content">
+        <div class="status-name">The reporting deadline has passed and no submission has been logged.</div>
+        <div class="status-conditions">Calculated as: <strong>today &gt; reportingDeadline AND submittedDate is null</strong>. An overdue grant needs immediate attention — either a submission needs to be made urgently, or a funder conversation needs to happen about a deadline extension.</div>
+      </div>
+    </div>
+    <div class="status-item status-due-soon">
+      <span class="status-pill pill-due-soon">Due soon</span>
+      <div class="status-content">
+        <div class="status-name">The deadline is within the next 30 days and no submission has been logged.</div>
+        <div class="status-conditions">Calculated as: <strong>0 &lt; daysToDeadline ≤ 30 AND submittedDate is null</strong>. A due-soon grant is the reporting cycle's main priority — a draft should be in progress, with a human review and sign-off scheduled before the deadline.</div>
+      </div>
+    </div>
+    <div class="status-item status-on-track">
+      <span class="status-pill pill-on-track">On-track</span>
+      <div class="status-content">
+        <div class="status-name">The deadline is more than 30 days away and no submission has been logged yet.</div>
+        <div class="status-conditions">Calculated as: <strong>daysToDeadline &gt; 30 AND submittedDate is null</strong>. On-track grants are on the radar but not yet urgent. The 30-day window is a starting point — in a live deployment, the Head of Ops and the team would set a threshold that reflects realistic report preparation time.</div>
+      </div>
+    </div>
+    <div class="status-item status-submitted">
+      <span class="status-pill pill-submitted">Submitted</span>
+      <div class="status-content">
+        <div class="status-name">A submission date has been recorded for this grant's current reporting period.</div>
+        <div class="status-conditions">Calculated as: <strong>submittedDate is not null</strong>. Submitted grants drop to the bottom of the Grant Tracker table and their bars turn green in the Overview chart, so they don't distract from active reporting obligations.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Space Grotesk',sans-serif; font-size:16px; font-weight:700; color:#333; margin:28px 0 14px;">Data completeness status — <code>computeDataCompleteness()</code></h3>
+  <div class="status-row">
+    <div class="status-item status-submitted">
+      <span class="status-pill pill-submitted">Complete</span>
+      <div class="status-content">
+        <div class="status-conditions">All three fields — engagement data, safeguarding data, and financial data — are present for this Spot in the selected period. The Spot can be fully included in any report draft.</div>
+      </div>
+    </div>
+    <div class="status-item status-overdue">
+      <span class="status-pill pill-overdue">Incomplete</span>
+      <div class="status-content">
+        <div class="status-conditions">One or more fields are missing. The specific missing field and reason are listed on the card in the Data Completeness view. The Report Generator will note the gap explicitly rather than excluding the Spot silently.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-note" style="margin-top:24px;">
+    <span class="callout-icon">📋</span>
+    <div>
+      <strong>The 30-day threshold can be adjusted</strong>
+      <p>The 30-day "due soon" window is a starting point, not fixed policy. In a live deployment the Head of Ops would review this with the team and set a threshold that reflects the actual time needed to prepare, review, and sign off a report — which varies by funder, report complexity, and team capacity. A grant requiring a detailed narrative impact report may need a 60-day window; a simple data return may need only 14 days.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ================================================================
+     10 — WORKFLOW
+================================================================ -->
+<section class="section" id="workflow">
+  <p class="section-eyebrow">10</p>
+  <h2 class="section-title">Typical weekly workflow</h2>
+  <p class="section-lead">How the Head of Programme and Product Operations would use this tool in practice — from Monday morning to a submitted report draft.</p>
+
+  <div class="workflow">
+    <div class="workflow-step">
+      <div class="workflow-num">1</div>
+      <div class="workflow-content">
+        <div class="workflow-title">Open Overview — read the funding pulse</div>
+        <div class="workflow-body">Check the KPI row. Has the "deadlines next 60 days" count changed since last week? Is any grant that was on-track now showing as due-soon? Are there more Spots with data gaps than last week — or fewer? These five numbers set the agenda for the rest of the session in under a minute.</div>
+      </div>
+    </div>
+    <div class="workflow-step">
+      <div class="workflow-num">2</div>
+      <div class="workflow-content">
+        <div class="workflow-title">Check the Grant Tracker — identify what needs action this week</div>
+        <div class="workflow-body">Scan the table top-to-bottom. Overdue grants need an immediate decision: is a late submission possible, or does the funder need a call? Due-soon grants need a report in preparation now. Click through to the detail panel for any grant that's unfamiliar — particularly to read the restriction text, which the report generator will use to frame the funder draft.</div>
+      </div>
+    </div>
+    <div class="workflow-step">
+      <div class="workflow-num">3</div>
+      <div class="workflow-content">
+        <div class="workflow-title">Check Data Completeness — know what you can and can't report</div>
+        <div class="workflow-body">Before generating any draft, open Data Completeness. If the grant you're reporting against covers a cluster with flagged Spots, decide now whether to chase the missing data before generating, or to generate with the gaps noted. Acknowledge each flagged Spot you're already aware of to keep the view focused on new issues.</div>
+      </div>
+    </div>
+    <div class="workflow-step">
+      <div class="workflow-num">4</div>
+      <div class="workflow-content">
+        <div class="workflow-title">Generate the draft — set period, audience, and scope</div>
+        <div class="workflow-body">Go to Report Generator. Set the reporting period dates. Choose your audience — Funder for an external report, RC for an internal cluster briefing, Spot Committee for a community-facing update. Apply the grant filter if the report is for a specific grant. Click "Generate draft" and review what appears.</div>
+      </div>
+    </div>
+    <div class="workflow-step">
+      <div class="workflow-num">5</div>
+      <div class="workflow-content">
+        <div class="workflow-title">Review, edit, and complete the placeholders — outside the tool</div>
+        <div class="workflow-body">Copy or download the draft. Open it in your document editor. Read it carefully: do the numbers match what you know from other sources? Is the framing right for this specific funder relationship? Complete every [REVIEWER: …] placeholder. Add any supporting evidence, quotes, or context that the tool couldn't generate. Have a colleague or line manager review before final sign-off.</div>
+      </div>
+    </div>
+    <div class="workflow-step">
+      <div class="workflow-num">6</div>
+      <div class="workflow-content">
+        <div class="workflow-title">Submit the report and record the date — outside the tool</div>
+        <div class="workflow-body">Once the report is approved, submit it through the funder's required channel. In a live version of this tool, you would then mark the grant as submitted in the data source, so the Grant Tracker automatically updates to "Submitted" status and the grant drops to the bottom of the table. In this prototype that update is done in the data file directly.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ================================================================
+     11 — WHO DOES WHAT
+================================================================ -->
+<section class="section" id="who-does-what">
+  <p class="section-eyebrow">11</p>
+  <h2 class="section-title">Who does what</h2>
+  <p class="section-lead">The tool serves two human roles and one automated function. The tool does the drafting and monitoring; people make every decision that matters.</p>
+
+  <table class="role-table">
+    <thead>
+      <tr>
+        <th>Task</th>
+        <th>Who</th>
+        <th>In the tool</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Monitor grant deadlines and submission status network-wide</td>
+        <td><span class="role-tag tag-head">Head of Ops</span></td>
+        <td>Overview KPI row + Grant Tracker table</td>
+      </tr>
+      <tr>
+        <td>Identify which grants are overdue or at risk this cycle</td>
+        <td><span class="role-tag tag-head">Head of Ops</span></td>
+        <td>Grant Tracker — overdue and due-soon badges</td>
+      </tr>
+      <tr>
+        <td>Review restriction text and funded Spots before reporting</td>
+        <td><span class="role-tag tag-head">Head of Ops</span></td>
+        <td>Grant detail panel — click any row</td>
+      </tr>
+      <tr>
+        <td>Identify Spots with missing or incomplete reporting data</td>
+        <td><span class="role-tag tag-head">Head of Ops</span> <span class="role-tag tag-rc">RC</span></td>
+        <td>Data Completeness view — per-field flags</td>
+      </tr>
+      <tr>
+        <td>Chase missing data before a report deadline</td>
+        <td><span class="role-tag tag-head">Head of Ops</span> <span class="role-tag tag-rc">RC</span></td>
+        <td>Data Completeness — RC name on each card</td>
+      </tr>
+      <tr>
+        <td>Acknowledge a data gap as known and in progress</td>
+        <td><span class="role-tag tag-head">Head of Ops</span> <span class="role-tag tag-rc">RC</span></td>
+        <td>Acknowledge for follow-up button</td>
+      </tr>
+      <tr>
+        <td>Generate a structured report draft</td>
+        <td><span class="role-tag tag-head">Head of Ops</span></td>
+        <td>Report Generator — audience, period, scope filters</td>
+      </tr>
+      <tr>
+        <td>Review, edit, and complete the draft before use</td>
+        <td><span class="role-tag tag-head">Head of Ops</span></td>
+        <td>Outside the tool — Word / Google Docs / email</td>
+      </tr>
+      <tr>
+        <td>Sign off and submit the final report</td>
+        <td><span class="role-tag tag-head">Head of Ops</span></td>
+        <td>Outside the tool — funder portal / email</td>
+      </tr>
+      <tr>
+        <td>Prepare for RC cluster check-in calls</td>
+        <td><span class="role-tag tag-head">Head of Ops</span> <span class="role-tag tag-rc">RC</span></td>
+        <td>RC draft with cluster filter applied</td>
+      </tr>
+      <tr>
+        <td>Compute grant status and data completeness flags</td>
+        <td><span class="role-tag tag-auto">Automated</span></td>
+        <td>computeGrantStatus() · computeDataCompleteness()</td>
+      </tr>
+      <tr>
+        <td>Generate draft text from dataset</td>
+        <td><span class="role-tag tag-auto">Automated</span></td>
+        <td>generateReportDraft() · three audience templates</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ================================================================
+     12 — ROADMAP
+================================================================ -->
+<section class="section" id="roadmap">
+  <p class="section-eyebrow">12</p>
+  <h2 class="section-title">Next steps if built for real</h2>
+  <p class="section-lead">This is a working prototype built on synthetic grant data and real Spot/RC names. Here is what a live deployment would add.</p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      </div>
+      <div class="feature-card-title">Live data connection</div>
+      <div class="feature-card-body">Connect to a shared Google Sheet or Airtable base that the Head of Ops and RCs already update — so the tracker reflects real grant records and Spot data without a new data entry habit.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </div>
+      <div class="feature-card-title">PDF export</div>
+      <div class="feature-card-body">Download a formatted PDF version of a reviewed and approved report draft — ready to attach to a funder email or board pack without reformatting in Word.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17H2a3 3 0 000 6h20a3 3 0 000-6z"/><path d="M6 17V3h12v14"/></svg>
+      </div>
+      <div class="feature-card-title">Email / WhatsApp deadline alerts</div>
+      <div class="feature-card-body">Automated weekly digest to the Head of Ops listing grants moving from on-track to due-soon — so the tool pushes deadline reminders rather than waiting to be opened.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="feature-card-title">Multi-cycle comparison</div>
+      <div class="feature-card-body">Compare this period's outcomes against the prior reporting period — so funder reports can include statements like "a 12% increase in Sparks reached compared to the same period last year" rather than single-period snapshots.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      </div>
+      <div class="feature-card-title">Integration with Projects #1 and #4</div>
+      <div class="feature-card-body">Cross-reference report data with Spot health scores from the MEL Dashboard (Project #1) and safeguarding compliance from the Training Tracker (Project #4) — so a report can surface combined risk flags rather than requiring manual cross-referencing.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </div>
+      <div class="feature-card-title">Funder-specific templates</div>
+      <div class="feature-card-body">Per-funder report templates that match each foundation's preferred structure, section headings, and word-count limits — so the draft requires less reformatting before submission to each specific funder.</div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /page -->
+
+<!-- ================================================================
+     FOOTER
+================================================================ -->
+<footer class="footer">
+  <div class="footer-left">
+    EduSpots Funding &amp; Impact Report Generator<br />
+    Project 3 of 5 · Head of Programme and Product Operations portfolio<br />
+    Prototype — all grant names, amounts, deadlines, and funder names are synthetic demo data · Real Spot &amp; RC names from eduspots.org
+  </div>
+  <div class="footer-right">
+    eduspots.org
+  </div>
+</footer>
+
+</body>
+</html>
