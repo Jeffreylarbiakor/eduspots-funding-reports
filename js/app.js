@@ -53,7 +53,7 @@ function fmtDate(str) {
 // ---------------------------------------------------------------------------
 
 function statusBadge(code, label) {
-  return `<span class="badge badge-${code}">${label}</span>`;
+  return `<span class="status-badge status-${code}">${label}</span>`;
 }
 
 // ---------------------------------------------------------------------------
@@ -82,15 +82,28 @@ function renderGrantTracker() {
   const tbody = document.getElementById("grants-tbody");
   if (!tbody) return;
 
+  const filterSel = document.getElementById("grant-status-filter");
+  const statusFilter = filterSel ? filterSel.value : "all";
+
   // Sort: overdue first, then due-soon, then on-track, then submitted
   const order = { overdue: 0, "due-soon": 1, "on-track": 2, submitted: 3 };
-  const sorted = [...GRANTS].sort((a, b) => (order[a.status.code] ?? 4) - (order[b.status.code] ?? 4));
+  const sorted = [...GRANTS]
+    .filter(g => statusFilter === "all" || g.status.code === statusFilter)
+    .sort((a, b) => (order[a.status.code] ?? 4) - (order[b.status.code] ?? 4));
+
+  const countEl = document.getElementById("grants-filter-count");
+  if (countEl) countEl.textContent = `${sorted.length} of ${GRANTS.length} grants`;
+
+  if (sorted.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="5" class="empty-state">No grants match the current filter.</td></tr>`;
+    return;
+  }
 
   tbody.innerHTML = sorted.map(g => {
     const clusterLabels = g.fundedClusterIds
       .map(cid => CLUSTERS.find(c => c.id === cid)?.label || cid)
       .join(", ");
-    return `<tr class="grant-row" data-grant-id="${g.id}">
+    return `<tr class="grant-row row-clickable" data-grant-id="${g.id}">
       <td class="td-funder">${g.funderName}</td>
       <td class="td-amount">${fmtCurrency(g.amount)}</td>
       <td class="td-clusters">${clusterLabels || "Network-wide"}</td>
@@ -124,45 +137,43 @@ function openGrantModal(grantId) {
     ? grant.reportingHistory.map(h => `<div class="history-row"><span>${fmtDate(h.period)}</span><span class="history-note">${h.note}</span></div>`).join("")
     : `<div class="history-empty">No prior reporting history on file.</div>`;
 
-  const submittedRow = grant.submittedDate
-    ? `<div class="detail-row"><span class="detail-label">Submitted</span><span>${fmtDate(grant.submittedDate)}</span></div>`
+  const submittedCard = grant.submittedDate
+    ? `<div class="detail-card"><span class="detail-label">Submitted</span><span class="detail-value mono">${fmtDate(grant.submittedDate)}</span></div>`
     : "";
 
-  document.getElementById("modal-title").textContent     = grant.funderName;
+  const statusBadgeEl = document.getElementById("modal-status-badge");
+  document.getElementById("modal-title").textContent = grant.funderName;
+  document.getElementById("modal-sub").textContent   = `Grant ID: ${grant.id}`;
+  statusBadgeEl.className   = `status-badge status-${grant.status.code}`;
+  statusBadgeEl.textContent = grant.status.label;
   document.getElementById("modal-body").innerHTML = `
-    <div class="modal-section">
-      <div class="detail-grid">
-        <div class="detail-row"><span class="detail-label">Grant ID</span><span class="mono">${grant.id}</span></div>
-        <div class="detail-row"><span class="detail-label">Amount</span><span>${fmtCurrency(grant.amount)}</span></div>
-        <div class="detail-row"><span class="detail-label">Deadline</span><span>${fmtDate(grant.reportingDeadline)}</span></div>
-        <div class="detail-row"><span class="detail-label">Status</span><span>${statusBadge(grant.status.code, grant.status.label)}</span></div>
-        ${submittedRow}
-      </div>
+    <div class="detail-grid">
+      <div class="detail-card"><span class="detail-label">Amount</span><span class="detail-value">${fmtCurrency(grant.amount)}</span></div>
+      <div class="detail-card"><span class="detail-label">Deadline</span><span class="detail-value mono">${fmtDate(grant.reportingDeadline)}</span></div>
+      ${submittedCard}
     </div>
-    <div class="modal-section">
-      <div class="modal-section-label">Grant purpose / restrictions</div>
+    <div>
+      <div class="modal-section-title">Grant purpose / restrictions</div>
       <p class="modal-restrictions">${grant.restrictions}</p>
     </div>
-    <div class="modal-section">
-      <div class="modal-section-label">Funded clusters (${clusters.length || "Network-wide"})</div>
+    <div>
+      <div class="modal-section-title">Funded clusters (${clusters.length || "Network-wide"})</div>
       ${clusters.length > 0 ? clusters.map(c => `
         <div class="cluster-detail">
           <strong>${c.label}</strong> — RC: ${c.rcName}
           <div class="spot-chips">${SPOTS.filter(s => s.clusterId === c.id).map(s => `<span class="spot-chip">${s.name}</span>`).join("")}</div>
         </div>`).join("") : `<p>Network-wide grant — all Spots in scope.</p>`}
     </div>
-    <div class="modal-section">
-      <div class="modal-section-label">Reporting history</div>
+    <div>
+      <div class="modal-section-title">Reporting history</div>
       <div class="history-list">${historyRows}</div>
     </div>`;
 
-  document.getElementById("grant-modal").classList.remove("hidden");
-  document.getElementById("modal-overlay").classList.remove("hidden");
+  document.getElementById("modalOverlay").classList.add("open");
 }
 
 function closeGrantModal() {
-  document.getElementById("grant-modal").classList.add("hidden");
-  document.getElementById("modal-overlay").classList.add("hidden");
+  document.getElementById("modalOverlay").classList.remove("open");
 }
 
 // ---------------------------------------------------------------------------
@@ -303,18 +314,18 @@ function renderCompleteness() {
     const flags    = computeDataCompleteness(s);
     const isAck    = state.acknowledgedSpots.has(s.id);
     const ackClass = isAck ? " ack" : "";
-    return `<div class="completeness-card${ackClass}" data-spot-id="${s.id}">
-      <div class="cc-header">
+    return `<div class="flag-card${ackClass}" data-spot-id="${s.id}">
+      <div class="flag-card-header">
         <div>
-          <span class="cc-name">${s.name}</span>
-          <span class="cc-cluster">${s.clusterLabel} · RC: ${s.rcName}</span>
+          <span class="flag-spot-name">${s.name}</span>
+          <span class="flag-cluster">${s.clusterLabel} · RC: ${s.rcName}</span>
         </div>
         ${isAck
-          ? `<span class="badge badge-submitted">Acknowledged</span>`
-          : `<button class="btn btn-sm btn-ack" onclick="acknowledgeSpot('${s.id}')">Acknowledge for follow-up</button>`}
+          ? `<span class="ack-badge">✓ Acknowledged</span>`
+          : `<button class="btn-acknowledge" onclick="acknowledgeSpot('${s.id}')">Acknowledge for follow-up</button>`}
       </div>
-      <ul class="cc-flags">
-        ${flags.map(f => `<li><span class="cc-field">${f.field}:</span> ${f.reason}</li>`).join("")}
+      <ul class="flag-reasons">
+        ${flags.map(f => `<li class="flag-reason"><strong>${f.field}:</strong> ${f.reason}</li>`).join("")}
       </ul>
     </div>`;
   }
@@ -346,8 +357,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Modal close
-  document.getElementById("modal-close").addEventListener("click", closeGrantModal);
-  document.getElementById("modal-overlay").addEventListener("click", closeGrantModal);
+  document.getElementById("modalClose").addEventListener("click", closeGrantModal);
+  document.getElementById("modalOverlay").addEventListener("click", e => {
+    if (e.target === e.currentTarget) closeGrantModal();
+  });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") closeGrantModal();
+  });
+
+  // Grant tracker filter
+  const grantStatusFilter = document.getElementById("grant-status-filter");
+  if (grantStatusFilter) grantStatusFilter.addEventListener("change", renderGrantTracker);
 
   // Report generator buttons
   document.getElementById("btn-generate").addEventListener("click", handleGenerateDraft);
