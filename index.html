@@ -7,7 +7,7 @@
   <link rel="icon" href="assets/favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
@@ -18,6 +18,7 @@
   <!-- SIDEBAR                                                           -->
   <!-- ================================================================ -->
   <aside class="sidebar" role="navigation" aria-label="Main navigation">
+
     <div class="sidebar-brand">
       <div class="sidebar-logo-plate">
         <img src="assets/eduspots-logo-horz.svg" alt="EduSpots" />
@@ -28,27 +29,23 @@
     <nav class="sidebar-nav">
       <button type="button" class="nav-link active" data-view="overview" aria-current="page">
         <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-        </span>
-        Overview
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        </span> Overview
       </button>
       <button type="button" class="nav-link" data-view="grants">
         <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
-        </span>
-        Grant Tracker
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+        </span> Grant Tracker
       </button>
       <button type="button" class="nav-link" data-view="generator">
         <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-        </span>
-        Report Generator
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+        </span> Report Generator
       </button>
       <button type="button" class="nav-link" data-view="completeness">
         <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        </span>
-        Data Completeness
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </span> Data Completeness
       </button>
     </nav>
 
@@ -63,263 +60,236 @@
         Project 3 of 5
       </p>
     </div>
+
   </aside>
 
   <!-- ================================================================ -->
   <!-- MAIN CONTENT                                                      -->
   <!-- ================================================================ -->
-  <main class="main" role="main">
+  <main class="main" id="main" role="main">
     <div class="main-inner">
+      <div id="mainContent">
 
-      <!-- ============================================================ -->
-      <!-- VIEW: OVERVIEW                                                -->
-      <!-- ============================================================ -->
-      <section id="view-overview" class="view">
-        <div class="view-header">
-          <h1 class="view-title">Funding &amp; Impact Overview</h1>
-          <p class="view-subtitle">Network-wide snapshot · Synthetic demo data · Real Spot/RC names</p>
-        </div>
+        <!-- ======================================================== -->
+        <!-- VIEW: OVERVIEW                                            -->
+        <!-- ======================================================== -->
+        <section id="view-overview" class="view">
+          <div class="view-header">
+            <h2 class="view-title">Funding &amp; Impact Overview</h2>
+            <p class="view-subtitle">Network-wide snapshot · Synthetic demo data · Real Spot/RC names</p>
+          </div>
 
-        <!-- KPI row -->
-        <div class="kpi-row">
-          <div class="kpi-card">
-            <span class="kpi-value" id="kpi-funding">—</span>
-            <span class="kpi-label">Total funding tracked</span>
-            <span class="kpi-sub">Across all active grants</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-value" id="kpi-grants">—</span>
-            <span class="kpi-label">Active grants</span>
-            <span class="kpi-sub">Awaiting or pending report</span>
-          </div>
-          <div class="kpi-card kpi-alert">
-            <span class="kpi-value" id="kpi-deadlines">—</span>
-            <span class="kpi-label">Deadlines next 60 days</span>
-            <span class="kpi-sub">Reports due soon</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-value" id="kpi-generated">0</span>
-            <span class="kpi-label">Drafts generated</span>
-            <span class="kpi-sub">This session</span>
-          </div>
-          <div class="kpi-card kpi-alert">
-            <span class="kpi-value" id="kpi-complete">—</span>
-            <span class="kpi-label">Spots · complete data</span>
-            <span class="kpi-sub" id="kpi-incomplete">—</span>
-          </div>
-        </div>
-
-        <!-- Charts -->
-        <div class="charts-grid">
-          <div class="chart-card">
-            <h3 class="chart-title">Grant amounts by funder</h3>
-            <div class="chart-wrap">
-              <canvas id="funding-chart"></canvas>
+          <div class="kpi-row">
+            <div class="kpi-card">
+              <span class="kpi-value" id="kpi-funding">—</span>
+              <span class="kpi-label">Total funding tracked</span>
             </div>
-            <p class="chart-footnote">
-              Colour = status: <span style="color:#006837">■</span> Submitted &nbsp;
-              <span style="color:#29abe2">■</span> On-track &nbsp;
-              <span style="color:#f5a623">■</span> Due soon &nbsp;
-              <span style="color:#c0392b">■</span> Overdue
-            </p>
-          </div>
-          <div class="chart-card">
-            <h3 class="chart-title">Reporting data completeness by cluster</h3>
-            <div class="chart-wrap">
-              <canvas id="completeness-chart"></canvas>
+            <div class="kpi-card">
+              <span class="kpi-value" id="kpi-grants">—</span>
+              <span class="kpi-label">Active grants</span>
             </div>
-            <p class="chart-footnote">
-              Flags missing engagement, safeguarding, or financial data per Spot.
-              See Data Completeness view for per-Spot reasons.
-            </p>
-          </div>
-        </div>
-
-        <div class="info-box">
-          <strong>About this tool:</strong> Automation drafts; a human reviews, edits, and signs off before anything goes out the door.
-          All figures here are drawn from synthetic demo data (grant names, amounts, deadlines are invented).
-          Real Spot names, RC names, and network totals are sourced from <a href="https://eduspots.org/" target="_blank" rel="noopener" style="text-decoration:underline">eduspots.org</a>.
-        </div>
-      </section>
-
-      <!-- ============================================================ -->
-      <!-- VIEW: GRANT TRACKER                                           -->
-      <!-- ============================================================ -->
-      <section id="view-grants" class="view hidden">
-        <div class="sticky-header">
-          <div class="view-header" style="margin-bottom:16px;">
-            <h1 class="view-title">Grant Tracker</h1>
-            <p class="view-subtitle">Click any row to view grant details, restrictions, and reporting history</p>
+            <div class="kpi-card kpi-alert">
+              <span class="kpi-value" id="kpi-deadlines">—</span>
+              <span class="kpi-label">Deadlines in next 60 days</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-value" id="kpi-generated">0</span>
+              <span class="kpi-label">Drafts generated this session</span>
+            </div>
+            <div class="kpi-card kpi-alert">
+              <span class="kpi-value" id="kpi-complete">—</span>
+              <span class="kpi-label" id="kpi-incomplete">Spots with complete data</span>
+            </div>
           </div>
 
-          <div class="filter-bar">
-            <div class="filter-group">
-              <label class="filter-label" for="grant-status-filter">Status</label>
-              <select id="grant-status-filter" class="filter-select">
-                <option value="all">All statuses</option>
-                <option value="on-track">On-track</option>
-                <option value="due-soon">Due soon</option>
-                <option value="overdue">Overdue</option>
-                <option value="submitted">Submitted</option>
-              </select>
+          <div class="charts-grid">
+            <div class="chart-card">
+              <h3 class="chart-title">Grant amounts by funder</h3>
+              <div class="chart-wrap">
+                <canvas id="funding-chart"></canvas>
+              </div>
             </div>
-            <span class="filter-count" id="grants-filter-count">—</span>
+            <div class="chart-card">
+              <h3 class="chart-title">Reporting data completeness by cluster</h3>
+              <div class="chart-wrap">
+                <canvas id="completeness-chart"></canvas>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div class="info-box" style="margin-top:16px">
-          Status rules: <strong>Overdue</strong> — deadline passed, no submission logged.
-          <strong>Due soon</strong> — deadline within 30 days.
-          <strong>On-track</strong> — deadline more than 30 days away.
-          All funder names are synthetic (invented for this prototype — not real organisations).
-        </div>
+          <div class="info-box">
+            <strong>About this tool:</strong> Automation drafts; a human reviews, edits, and signs off before anything goes out the door.
+            All figures here are drawn from synthetic demo data (grant names, amounts, deadlines are invented).
+            Real Spot names, RC names, and network totals are sourced from <a href="https://eduspots.org/" target="_blank" rel="noopener" style="text-decoration:underline">eduspots.org</a>.
+          </div>
+        </section>
 
-        <div class="table-wrap">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Funder</th>
-                <th>Amount</th>
-                <th>Funded clusters</th>
-                <th>Reporting deadline</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="grants-tbody"></tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- ============================================================ -->
-      <!-- VIEW: REPORT GENERATOR                                        -->
-      <!-- ============================================================ -->
-      <section id="view-generator" class="view hidden">
-        <div class="view-header">
-          <h1 class="view-title">Report Generator</h1>
-          <p class="view-subtitle">Select a period, audience, and scope — then generate a draft. Every draft requires human review before use.</p>
-        </div>
-
-        <div class="warn-box" style="margin-bottom:20px">
-          <strong>Important:</strong> This tool drafts; it does not decide what's true. Every number in a generated report comes
-          directly from the underlying dataset. Where data is missing the draft says so plainly. A generated draft is never
-          final — it must be reviewed, verified, and signed off by an authorised person before any use.
-        </div>
-
-        <div class="generator-layout">
-          <!-- Form -->
-          <div class="card form-card">
-            <h3 class="chart-title" style="margin-bottom:2px">Generate a draft</h3>
-
-            <div class="form-field">
-              <label class="form-label" for="gen-start">Reporting period — start</label>
-              <input type="date" id="gen-start" value="2025-01-01" />
-            </div>
-            <div class="form-field">
-              <label class="form-label" for="gen-end">Reporting period — end</label>
-              <input type="date" id="gen-end" value="2025-06-30" />
-            </div>
-            <div class="form-field">
-              <label class="form-label" for="gen-audience">Audience</label>
-              <select id="gen-audience">
-                <option value="">Select an audience…</option>
-                <option value="funder">Funder — formal, outcomes &amp; accountability</option>
-                <option value="rc">Regional Coordinator — operational, flags-oriented</option>
-                <option value="committee">Spot Committee — plain-language, community-facing</option>
-              </select>
-            </div>
-            <div class="form-field">
-              <label class="form-label" for="gen-cluster">Cluster filter (optional)</label>
-              <select id="gen-cluster">
-                <option value="all">All clusters</option>
-              </select>
-            </div>
-            <div class="form-field">
-              <label class="form-label" for="gen-grant">Grant filter (optional)</label>
-              <select id="gen-grant">
-                <option value="all">All grants</option>
-              </select>
+        <!-- ======================================================== -->
+        <!-- VIEW: GRANT TRACKER                                       -->
+        <!-- ======================================================== -->
+        <section id="view-grants" class="view hidden">
+          <div class="sticky-header">
+            <div class="view-header" style="margin-bottom:16px;">
+              <h2 class="view-title">Grant Tracker</h2>
+              <p class="view-subtitle">Click any row to view grant details, restrictions, and reporting history. All funder names are synthetic (invented for this prototype — not real organisations).</p>
             </div>
 
-            <button class="btn btn-primary" id="btn-generate">Generate draft</button>
+            <div class="filter-bar" style="margin-bottom:0;">
+              <div class="filter-group">
+                <label for="grant-status-filter" class="filter-label">Status</label>
+                <select id="grant-status-filter" class="filter-select">
+                  <option value="all">All statuses</option>
+                  <option value="on-track">On-track</option>
+                  <option value="due-soon">Due soon</option>
+                  <option value="overdue">Overdue</option>
+                  <option value="submitted">Submitted</option>
+                </select>
+              </div>
+              <span class="filter-count" id="grants-filter-count">—</span>
+            </div>
           </div>
 
-          <!-- Draft output -->
-          <div>
-            <!-- Placeholder state -->
-            <div class="draft-placeholder" id="draft-placeholder">
-              <span class="ph-icon">✦</span>
-              <p>Set the options on the left and click <strong>Generate draft</strong> to produce a report draft.</p>
+          <div class="table-wrap" style="margin-top:16px;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Funder</th>
+                  <th>Amount</th>
+                  <th>Funded clusters</th>
+                  <th>Reporting deadline</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="grants-tbody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- VIEW: REPORT GENERATOR                                    -->
+        <!-- ======================================================== -->
+        <section id="view-generator" class="view hidden">
+          <div class="view-header">
+            <h2 class="view-title">Report Generator</h2>
+            <p class="view-subtitle">Select a period, audience, and scope — then generate a draft. Every draft requires human review before use.</p>
+          </div>
+
+          <div class="warn-box" style="margin-bottom:20px">
+            <strong>Important:</strong> This tool drafts; it does not decide what's true. Every number in a generated report comes
+            directly from the underlying dataset. Where data is missing the draft says so plainly. A generated draft is never
+            final — it must be reviewed, verified, and signed off by an authorised person before any use.
+          </div>
+
+          <div class="generator-layout">
+            <!-- Form -->
+            <div class="form-card">
+              <h3 class="chart-title" style="margin-bottom:2px">Generate a draft</h3>
+
+              <div class="form-field">
+                <label class="form-label" for="gen-start">Reporting period — start</label>
+                <input type="date" id="gen-start" value="2025-01-01" />
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="gen-end">Reporting period — end</label>
+                <input type="date" id="gen-end" value="2025-06-30" />
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="gen-audience">Audience</label>
+                <select id="gen-audience">
+                  <option value="">Select an audience…</option>
+                  <option value="funder">Funder — formal, outcomes &amp; accountability</option>
+                  <option value="rc">Regional Coordinator — operational, flags-oriented</option>
+                  <option value="committee">Spot Committee — plain-language, community-facing</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="gen-cluster">Cluster filter (optional)</label>
+                <select id="gen-cluster">
+                  <option value="all">All clusters</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="gen-grant">Grant filter (optional)</label>
+                <select id="gen-grant">
+                  <option value="all">All grants</option>
+                </select>
+              </div>
+
+              <button class="btn btn-primary" id="btn-generate">Generate draft</button>
             </div>
 
-            <!-- Generated draft -->
-            <div id="draft-output" class="hidden">
-              <div class="draft-panel">
-                <div class="draft-banner">⚠ DRAFT — Human review required before sending</div>
-                <div class="draft-meta">
-                  <div class="draft-meta-item">
-                    <span class="draft-meta-label">Audience</span>
-                    <span class="draft-meta-value" id="draft-audience-label">—</span>
+            <!-- Draft output -->
+            <div>
+              <div class="draft-placeholder" id="draft-placeholder">
+                <span class="ph-icon">✦</span>
+                <p>Set the options on the left and click <strong>Generate draft</strong> to produce a report draft.</p>
+              </div>
+
+              <div id="draft-output" class="hidden">
+                <div class="draft-panel">
+                  <div class="draft-banner">⚠ DRAFT — Human review required before sending</div>
+                  <div class="draft-meta">
+                    <div class="draft-meta-item">
+                      <span class="draft-meta-label">Audience</span>
+                      <span class="draft-meta-value" id="draft-audience-label">—</span>
+                    </div>
+                    <div class="draft-meta-item">
+                      <span class="draft-meta-label">Period</span>
+                      <span class="draft-meta-value" id="draft-period-label">—</span>
+                    </div>
+                    <div class="draft-meta-item">
+                      <span class="draft-meta-label">Generated</span>
+                      <span class="draft-meta-value" style="font-family:var(--font-mono);font-size:11px;color:var(--muted)" id="draft-timestamp"></span>
+                    </div>
                   </div>
-                  <div class="draft-meta-item">
-                    <span class="draft-meta-label">Period</span>
-                    <span class="draft-meta-value" id="draft-period-label">—</span>
+                  <div class="draft-document">
+                    <pre id="draft-text"></pre>
                   </div>
-                  <div class="draft-meta-item">
-                    <span class="draft-meta-label">Generated</span>
-                    <span class="draft-meta-value" style="font-family:var(--font-mono);font-size:11px;color:var(--muted)" id="draft-timestamp"></span>
+                  <div class="draft-actions">
+                    <button class="btn-ghost" id="btn-copy">Copy text</button>
+                    <button class="btn-ghost" id="btn-download">Download .txt</button>
                   </div>
-                </div>
-                <div class="draft-document">
-                  <pre id="draft-text"></pre>
-                </div>
-                <div class="draft-actions">
-                  <button class="btn-ghost" id="btn-copy">Copy text</button>
-                  <button class="btn-ghost" id="btn-download">Download .txt</button>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- ============================================================ -->
-      <!-- VIEW: DATA COMPLETENESS                                       -->
-      <!-- ============================================================ -->
-      <section id="view-completeness" class="view hidden">
-        <div class="sticky-header">
-          <div class="view-header" style="margin-bottom:0;">
-            <h1 class="view-title">Data Completeness</h1>
-            <p class="view-subtitle">Spots where reporting data is incomplete or missing — with the specific reason per gap</p>
+        <!-- ======================================================== -->
+        <!-- VIEW: DATA COMPLETENESS                                   -->
+        <!-- ======================================================== -->
+        <section id="view-completeness" class="view hidden">
+          <div class="sticky-header">
+            <div class="view-header" style="margin-bottom:0;">
+              <h2 class="view-title">Data Completeness</h2>
+              <p class="view-subtitle">
+                Spots where reporting data is incomplete or missing — with the specific reason per gap.
+                Acknowledge each Spot to log it for follow-up.
+              </p>
+            </div>
           </div>
-        </div>
 
-        <div class="warn-box" style="margin-top:20px">
-          This view flags what the report generator <strong>cannot responsibly report on</strong>, rather than papering over gaps.
-          Acknowledge each Spot to log it for follow-up. Acknowledged items remain visible but are marked separately.
-          Completeness is computed per Spot across three fields: engagement data, safeguarding data, and financial data.
-        </div>
+          <div class="flagged-count" id="completeness-count" style="margin-top:28px">—</div>
 
-        <div class="flagged-count" id="completeness-count">—</div>
+          <div class="flagged-list" id="completeness-list"></div>
+        </section>
 
-        <div class="flagged-list" id="completeness-list"></div>
-      </section>
-
+      </div>
     </div>
   </main>
+
 </div>
 
-<!-- ==================================================================== -->
-<!-- GRANT DETAIL MODAL                                                    -->
-<!-- ==================================================================== -->
-<div id="modalOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-  <div id="modal" class="modal">
+<!-- Modal overlay (shared, populated on demand) -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-label="Grant detail">
+  <div class="modal" id="modal">
     <div class="modal-header">
       <div>
         <h2 class="modal-title" id="modal-title">Grant detail</h2>
         <span class="modal-sub" id="modal-sub">&nbsp;</span>
       </div>
       <div class="modal-header-right">
-        <span class="status-badge" id="modal-status-badge"></span>
+        <span class="req-badge" id="modal-status-badge"></span>
         <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
       </div>
     </div>

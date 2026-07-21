@@ -52,8 +52,18 @@ function fmtDate(str) {
 // STATUS BADGE
 // ---------------------------------------------------------------------------
 
+// Grant reporting has 4 tiers; the bundle's req-badge only defines 3
+// (open / in-progress / fulfilled) plus our added req-due-soon modifier.
+const GRANT_STATUS_TO_REQ_CLASS = {
+  overdue:    "req-open",
+  "due-soon": "req-due-soon",
+  "on-track": "req-inprogress",
+  submitted:  "req-fulfilled",
+};
+
 function statusBadge(code, label) {
-  return `<span class="status-badge status-${code}">${label}</span>`;
+  const reqClass = GRANT_STATUS_TO_REQ_CLASS[code] || "req-open";
+  return `<span class="req-badge ${reqClass}">${label}</span>`;
 }
 
 // ---------------------------------------------------------------------------
@@ -68,7 +78,6 @@ function renderOverview() {
   document.getElementById("kpi-deadlines").textContent   = kpis.upcomingInNext60;
   document.getElementById("kpi-generated").textContent   = state.generatedCount;
   document.getElementById("kpi-complete").textContent    = kpis.completeSpots + " / " + SPOTS.length;
-  document.getElementById("kpi-incomplete").textContent  = kpis.incompleteSpots + " Spot" + (kpis.incompleteSpots !== 1 ? "s" : "") + " have data gaps";
 
   renderFundingChart(GRANTS);
   renderCompletenessChart(getClusterCompleteness());
@@ -103,17 +112,23 @@ function renderGrantTracker() {
     const clusterLabels = g.fundedClusterIds
       .map(cid => CLUSTERS.find(c => c.id === cid)?.label || cid)
       .join(", ");
-    return `<tr class="grant-row row-clickable" data-grant-id="${g.id}">
-      <td class="td-funder">${g.funderName}</td>
-      <td class="td-amount">${fmtCurrency(g.amount)}</td>
-      <td class="td-clusters">${clusterLabels || "Network-wide"}</td>
-      <td class="td-deadline">${fmtDate(g.reportingDeadline)}</td>
-      <td class="td-status">${statusBadge(g.status.code, g.status.label)}</td>
+    return `<tr class="req-row" data-grant-id="${g.id}" tabindex="0" role="button" aria-label="View ${g.funderName} grant detail">
+      <td>${g.funderName}</td>
+      <td class="mono">${fmtCurrency(g.amount)}</td>
+      <td>${clusterLabels || "Network-wide"}</td>
+      <td class="mono">${fmtDate(g.reportingDeadline)}</td>
+      <td>${statusBadge(g.status.code, g.status.label)}</td>
     </tr>`;
   }).join("");
 
-  tbody.querySelectorAll(".grant-row").forEach(row => {
+  tbody.querySelectorAll(".req-row").forEach(row => {
     row.addEventListener("click", () => openGrantModal(row.dataset.grantId));
+    row.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openGrantModal(row.dataset.grantId);
+      }
+    });
   });
 }
 
@@ -142,9 +157,10 @@ function openGrantModal(grantId) {
     : "";
 
   const statusBadgeEl = document.getElementById("modal-status-badge");
+  const reqClass = GRANT_STATUS_TO_REQ_CLASS[grant.status.code] || "req-open";
   document.getElementById("modal-title").textContent = grant.funderName;
   document.getElementById("modal-sub").textContent   = `Grant ID: ${grant.id}`;
-  statusBadgeEl.className   = `status-badge status-${grant.status.code}`;
+  statusBadgeEl.className   = `req-badge ${reqClass}`;
   statusBadgeEl.textContent = grant.status.label;
   document.getElementById("modal-body").innerHTML = `
     <div class="detail-grid">
@@ -313,20 +329,34 @@ function renderCompleteness() {
   function renderSpotCard(s) {
     const flags    = computeDataCompleteness(s);
     const isAck    = state.acknowledgedSpots.has(s.id);
-    const ackClass = isAck ? " ack" : "";
-    return `<div class="flag-card${ackClass}" data-spot-id="${s.id}">
+    // Severity tier drives both the flag-card's left border and the header
+    // badge, the same two-tier vocabulary the bundle uses for tile-badge
+    // (status-under / status-below).
+    const severity      = flags.length >= 2 ? "status-under" : "status-below";
+    const severityLabel = flags.length >= 2 ? "Needs attention" : "Minor gap";
+
+    return `<div class="flag-card ${severity}" data-spot-id="${s.id}">
       <div class="flag-card-header">
         <div>
           <span class="flag-spot-name">${s.name}</span>
           <span class="flag-cluster">${s.clusterLabel} · RC: ${s.rcName}</span>
         </div>
-        ${isAck
-          ? `<span class="ack-badge">✓ Acknowledged</span>`
-          : `<button class="btn-acknowledge" onclick="acknowledgeSpot('${s.id}')">Acknowledge for follow-up</button>`}
+        <span class="tile-badge ${severity}">${severityLabel}</span>
       </div>
       <ul class="flag-reasons">
         ${flags.map(f => `<li class="flag-reason"><strong>${f.field}:</strong> ${f.reason}</li>`).join("")}
       </ul>
+      <div class="flag-meta">
+        <span>👥 ${s.activeCatalysts} Catalysts</span>
+        <span>🧒 ${s.activeSparks} Sparks</span>
+        <span>📚 ${s.sessionsHeld} sessions held</span>
+        <span>📖 ${s.booksCirculated} books circulated</span>
+      </div>
+      <div class="flag-actions">
+        ${isAck
+          ? `<span class="ack-badge">✓ Acknowledged</span>`
+          : `<button class="btn-acknowledge" onclick="acknowledgeSpot('${s.id}')">Acknowledge for follow-up</button>`}
+      </div>
     </div>`;
   }
 
